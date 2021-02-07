@@ -1,0 +1,72 @@
+<script>
+    $( document ).ready(function() {
+        <% if @category.parent_id.present? %>
+        $('.child_block_<%= @category.parent_id %>').show();
+        $('.child_block_<%= @category.parent_id %>').removeClass( "child_block_<%= @category.parent_id %>" );
+        <% end %>
+        $("#<%= params[:sort] %>").addClass("active");
+        <% if @category.present? %>
+        $("#<%= @category.name %>").addClass("active");
+        <% end %>
+    })
+</script>
+<div class="row">
+  <%= render 'categories/category'  %>
+  <div class="col-9 ps-3 mt-5">
+    <h1><%=  @category.present? ? @category.name : "Search result for: #{params[:product_name]}"%></h1>
+    <div class="row border border-3 p-2 mb-3 rounded align-items-center shadow-sm bg-white rounded">
+      <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item">
+            <%= link_to 'Main', home_path%>
+          </li>
+          <li class="breadcrumb-item">
+            <%= @category.name %>
+          </li>
+        </ol>
+      </nav>
+    </div>
+    <div class="row mx-1 p-3 bg-light align-items-start alert alert-secondary">
+      <div class="col-lg-4 col-sm-auto btn-group">
+        <%= sortable "name",  params[:min], params[:max], params[:product_name] %>
+        <%= sortable "price", params[:min], params[:max], params[:product_name] %>
+        <%= sortable "created_at", params[:min], params[:max], params[:product_name], "Created" %>
+      </div>
+      <div class="col-lg-3 col-sm-0"></div>
+      <div class="col-lg-5 col-sm-auto">
+        <%= form_with url: @category, class: "d-flex", method: :get, local:true do |f|  %>
+          <div class="input-group mb-3">
+            <span class="input-group-text">From:</span>
+            <%= f.text_field :min, id: :min, class: "form-control", placeholder:"min" , value: params[:min], type: "number" %>
+            <span class="input-group-text">to:</span>
+            <%= f.text_field :max, id: :max, class: "form-control", placeholder:"max", value: params[:max], type: "number" %>
+            <%= f.submit "Filter", class: "btn btn-outline-success" %>
+          </div>
+          <%= f.hidden_field :sort, id: :sort, value: params[:sort] %>
+          <%= f.hidden_field :directions, id: :directions, value: params[:directions]  %>
+        <%end %>
+      </div>
+    </div>
+    <div class="row ms-lg-4">
+      <% if @product_list.any? %>
+        <%@products.each do |product| %>
+          <div class="card border-light" style="max-width: 14rem;">
+            <%= link_to image_tag(url_for(product.photo), class: "card-img-top", alt: product.config ),
+                        category_product_path(category, product, name.name) if product.photo.present?%><div class="card-body">
+              <% name = Product.find_by(name: product.name) %>
+              <p class="card-text"><%= link_to product.name, category_product_path(product.category_id, product, name.name), class: "link-danger" %></p>
+              <h6 class="card-title"><%= number_to_currency(product.price, unit:"UAH", separator: ",", format: "%n%u" ) %> </h6>
+            </div>
+          </div>
+        <% end %>
+        <%= pagy_bootstrap_nav(@pagy).html_safe if @pagy.present? %>
+      <%else %>
+        <div class="alert alert-secondary align-items-center" role="alert">
+          At this moment in this category nothing added
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+</div>
+</div>

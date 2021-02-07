@@ -1,0 +1,133 @@
+<% if current_user.nil? %>
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Please log in or sing in</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          You cannot perform this action until you register
+        </div>
+        <div class="modal-footer">
+          <%= link_to 'Log in', "/users/sign_up", class: "btn btn-secondary"%>
+          <%= link_to 'Sign in', "/users/sign_in", class: "btn btn-secondary"%>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<div class="container mt-2">
+  <div class="row border border-3 rounded align-items-center shadow-sm bg-white rounded">
+    <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+
+      <ol class="breadcrumb mb-0 py-3 ms-2">
+        <li class="breadcrumb-item">
+          <%= link_to 'Main', home_path%>
+        </li>
+        <li class="breadcrumb-item">
+          <%= link_to @category.name, category_path(@category, @category.name)%>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+          <%= @product.name %>
+        </li>
+      </ol>
+    </nav>
+  </div>
+
+  <div class="row justify-content-between align-items-center">
+    <div class="col-auto me-auto">
+      <h3><%=@product.name %></h3>
+      <span class="h5">Rating </span><span class="badge bg-secondary h5"><%= @product.rating %> / 5</span>
+    </div>
+    <div class="col-auto "><h5><span class="badge bg-secondary">Article: <%=@product.article %></span></h5></div>
+  </div>
+
+  <hr>
+  <div class="row">
+    <div class="col-sm">
+      <%= image_tag(@product.photo, class:"img-fluid", style: 'min-width: 28rem') if product.photo.present? %>
+    </div>
+    <div class="col-sm">
+      <div class="row justify-content-between mt-2 mb-3 jumbotron ">
+        <div class="col-auto align-self-center">
+          <h1 class="display-6"><strong><%= number_to_currency(@product.price, unit:"UAH", separator: ",", format: "%n%u" ) %></strong></h1>
+        </div>
+        <div class="col-auto align-self-center">
+          <% if current_user.present? %>
+            <%= link_to 'Add to cart',
+                        add_to_cart_path(item: @product.id),
+                        class: 'btn btn-info btn-lg', id: "cart_button",
+                        role: "button", style: "color: white",
+                        remote: true,
+                        data: { "bs-target": "#addProduct", "bs-toggle": "modal" }%>
+
+            <%= link_to 'Buy now',
+                        new_order_path(product: @product.id),
+                        class: 'btn btn-success btn-lg', id: "buy_button",
+                        role: "button", style: "color: white"%>
+          <% else %>
+            <button type="button" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              Add to cart
+            </button>
+            <button type="button" class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              Buy now
+            </button>
+          <% end %>
+        </div>
+      </div>
+      <div class="row jumbotron mb-0">
+        <h4>Config:</h4>
+        <div class="col"> <%=@product.config %></div>
+      </div>
+      <br>
+      <div class="row jumbotron mt-0">
+        <h4>Factory:</h4>
+        <div class="col"> <%=@product.factory %></div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row mx-3">
+    <%= @product.about %>
+  </div>
+  <hr>
+  <% if current_user.present? %>
+    <div><%= link_to 'Add comment',  new_comment_path(product_id: @product.id),
+                     method: :get, class: 'btn btn-success btn-lg' %></div>
+  <% else %>
+    <div class="alert alert-danger">
+      only registered user can left comment
+    </div>
+  <% end %>
+  <div class="row mt-4">
+    <% if @product.comments.any? %>
+      <div>
+        <% @product.comments.each do |comment| %>
+          <div class="row border border-3 rounded p-2 mb-3 shadow-sm bg-white rounded">
+            <div class="row justify-content-between mb-1">
+              <div class="col-auto me-2"><%= User.find(comment.user.id).email %></div>
+              <div class="col-auto badge bg-secondary"><%= comment.rating %> / 5</div>
+            </div>
+            <hr>
+            <div class="row"><%= comment.body %></div>
+            <div class="row justify-content-end">
+              <div class="col-auto">
+                <% if current_user.id == comment.user_id %>
+                  <%= link_to "Delete", comment, method: :delete, class: 'btn btn-danger btn-sm', role: "button", style: "color: white"  %>
+                  <%= link_to 'Edit', edit_comment_path(comment), class: 'btn btn-info btn-sm', role: "button", style: "color: white" %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="alert alert-secondary">
+        At this moment no comments
+      </div>
+    <% end %>
+  </div>
+
+</div>
