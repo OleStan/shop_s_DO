@@ -110,12 +110,9 @@ GEM
       ruby2_keywords (>= 0.0.2, < 1.0)
     aws_cf_signer (0.1.3)
     bcrypt (3.1.16)
-    bcrypt (3.1.16-java)
     bcrypt_pbkdf (1.1.0)
-    bcrypt_pbkdf (1.1.0-x64-mingw32)
-    bcrypt_pbkdf (1.1.0-x86-mingw32)
     bindex (0.8.1)
-    bootsnap (1.7.1)
+    bootsnap (1.7.2)
       msgpack (~> 1.0)
     builder (3.2.4)
     byebug (11.1.3)
@@ -153,7 +150,6 @@ GEM
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     ed25519 (1.2.4)
-    ed25519 (1.2.4-java)
     erubi (1.10.0)
     faker (2.15.1)
       i18n (>= 1.6, < 2)
@@ -163,9 +159,6 @@ GEM
       ruby2_keywords
     faraday-net_http (1.0.1)
     ffi (1.14.2)
-    ffi (1.14.2-java)
-    ffi (1.14.2-x64-mingw32)
-    ffi (1.14.2-x86-mingw32)
     formtastic (4.0.0)
       actionpack (>= 5.2.0)
     formtastic_i18n (0.6.0)
@@ -217,10 +210,8 @@ GEM
     mime-types-data (3.2020.1104)
     mimemagic (0.3.5)
     mini_mime (1.0.2)
-    mini_portile2 (2.5.0)
     minitest (5.14.3)
     msgpack (1.4.2)
-    msgpack (1.4.2-java)
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
@@ -229,15 +220,7 @@ GEM
     net-ssh (6.1.0)
     netrc (0.11.0)
     nio4r (2.5.5)
-    nio4r (2.5.5-java)
-    nokogiri (1.11.1)
-      mini_portile2 (~> 2.5.0)
-      racc (~> 1.4)
-    nokogiri (1.11.1-java)
-      racc (~> 1.4)
-    nokogiri (1.11.1-x64-mingw32)
-      racc (~> 1.4)
-    nokogiri (1.11.1-x86-mingw32)
+    nokogiri (1.11.1-x86_64-linux)
       racc (~> 1.4)
     oauth2 (1.4.4)
       faraday (>= 0.8, < 2.0)
@@ -255,18 +238,14 @@ GEM
     omniauth-rails_csrf_protection (1.0.0)
       actionpack (>= 4.2)
       omniauth (~> 2.0)
+    optimist (3.0.1)
     orm_adapter (0.5.0)
     pagy (3.10.0)
     pg (1.2.3)
-    pg (1.2.3-x64-mingw32)
-    pg (1.2.3-x86-mingw32)
     public_suffix (4.0.6)
     puma (5.2.1)
       nio4r (~> 2.0)
-    puma (5.2.1-java)
-      nio4r (~> 2.0)
     racc (1.5.2)
-    racc (1.5.2-java)
     rack (2.2.3)
     rack-mini-profiler (2.3.1)
       rack (>= 1.2.0)
@@ -351,14 +330,9 @@ GEM
     turbolinks-source (5.2.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
-    tzinfo-data (1.2021.1)
-      tzinfo (>= 1.0.0)
     unf (0.1.4)
       unf_ext
-    unf (0.1.4-java)
     unf_ext (0.0.7.7)
-    unf_ext (0.0.7.7-x64-mingw32)
-    unf_ext (0.0.7.7-x86-mingw32)
     warden (1.2.9)
       rack (>= 2.0.9)
     web-console (4.1.0)
@@ -377,19 +351,13 @@ GEM
       semantic_range (>= 2.3.0)
     websocket-driver (0.7.3)
       websocket-extensions (>= 0.1.0)
-    websocket-driver (0.7.3-java)
-      websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.4.2)
 
 PLATFORMS
-  java
-  ruby
-  x64-mingw32
-  x86-mingw32
-  x86-mswin32
+  x86_64-linux
 
 DEPENDENCIES
   activeadmin
@@ -412,6 +380,7 @@ DEPENDENCIES
   jbuilder (~> 2.7)
   omniauth-github!
   omniauth-rails_csrf_protection
+  optimist
   pagy (~> 3.5)
   pg
   puma (~> 5.0)
